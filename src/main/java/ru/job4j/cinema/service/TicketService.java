@@ -8,16 +8,14 @@ import java.util.Objects;
 
 public class TicketService {
     private static final Store store = Store.instOf();
+    public static final String WRONG_CREDENTIALS = "Wrong username or phone";
+    public static final String ANOTHER_TICKET = "Try to buy another ticket";
 
     public Object buyTicket(String phone, String name, int row, int cell) {
         Account account = store.findAccountByPhoneNumber(phone);
         if (Objects.isNull(account) || !Objects.equals(account.getUsername(), name)) {
-            return "Wrong username or phone";
+            throw new IllegalArgumentException(WRONG_CREDENTIALS);
         }
-        Ticket ticket = store.save(new Ticket(0, account.getId(), row, cell));
-        if (ticket.getId() == 0) {
-            return "Try to buy another ticket";
-        }
-        return ticket;
+        return store.save(new Ticket(0, account.getId(), row, cell));
     }
 }

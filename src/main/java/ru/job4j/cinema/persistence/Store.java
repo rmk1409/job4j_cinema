@@ -1,8 +1,10 @@
 package ru.job4j.cinema.persistence;
 
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.postgresql.util.PSQLException;
 import ru.job4j.cinema.model.Account;
 import ru.job4j.cinema.model.Ticket;
+import ru.job4j.cinema.service.TicketService;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -109,6 +111,8 @@ public class Store {
                     ticket.setId(id.getInt(1));
                 }
             }
+        } catch (PSQLException e) {
+            throw new IllegalArgumentException(TicketService.ANOTHER_TICKET, e);
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "An exception was thrown", e);
         }

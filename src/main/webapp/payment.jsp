@@ -72,13 +72,10 @@
             type: 'POST',
             url: 'http://localhost:8080/cinema/tickets',
             data: {phoneNumber, username, row, cell}
-        }).done((data) => {
-            const parsedData = JSON.parse(data);
-            if (parsedData.id) {
-                alert(`Congrats! You've bought the ticket!`);
-            } else {
-                alert(parsedData);
-            }
+        }).done((_) => {
+            alert(`Congrats! You've bought the ticket!`);
+        }).fail((xhr) => {
+            alert($.parseHTML(xhr.responseText)[5].innerText);
         });
     }
 </script>
